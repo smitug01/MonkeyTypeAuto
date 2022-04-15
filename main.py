@@ -16,8 +16,8 @@ Do NOT use it for public testing
 ''')
 
 # User enter length of time to test.
-usr_time = 1 or int(input("Enter how many time you want to test(1 in default): "))
-basic_time = 1 or int(input("Enter the base time in RPM(1~1000, 1 in default): "))
+usr_time = 30 or int(input("Enter how many time you want to test(1 in default): "))
+basic_time = 10 or int(input("Enter the base time in RPM(1~1000, 1 in default): "))
 
 rderrinput = input("Random Error? (True) or False: ")
 if not isinstance(rderrinput, bool): print("Input invalid, use default value True"); random_error = True
