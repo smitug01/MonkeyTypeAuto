@@ -8,15 +8,24 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Print Information.
-print("-------------Warning-------------")
-print("For more easy use, that is something you need to know.")
-print("This Script only for Test or Learn use, not for Public Test")
+print('''
+-------------Warning-------------
+To using this script more easily, there is something you need to know.
+This script is designed only for testing or learning purpose
+Do NOT use it for public testing
+''')
 
 # User enter length of time to test.
-usr_time = int(input("Please Input Test Time: "))
-basic_time = int(input("Please Input RPM Base Time (1~1000): "))
-random_error = bool(input("Random Error? True or False: "))
-random_speed = bool(input("Random Speed? True or False: "))
+usr_time = 1 or int(input("Enter how many time you want to test(1 in default): "))
+basic_time = 1 or int(input("Enter the base time in RPM(1~1000, 1 in default): "))
+
+rderrinput = input("Random Error? (True) or False: ")
+if not isinstance(rderrinput, bool): print("Input invalid, use default value True"); random_error = True
+else: random_error = rderrinput()
+
+rdspdinput = input("Random Speed? (True) or False: ")
+if not isinstance(rderrinput, bool): print("Input invalid, use default value True"); random_speed = True
+else: random_speed = rdspdinput()
 
 def pause_time():
     if (random_speed):
