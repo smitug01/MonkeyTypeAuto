@@ -16,8 +16,19 @@ Do NOT use it for public testing
 ''')
 
 # User enter length of time to test.
-usr_time = 30 or int(input("Enter how many time you want to test(1 in default): "))
-basic_time = 10 or int(input("Enter the base time in RPM(1~1000, 1 in default): "))
+try:
+    rderrinput = int(input("Enter how many time you want to test? (30 in default): "))
+    if not isinstance(rderrinput, int): print("Input invalid, use default value 30"); usr_time = 30
+    else: usr_time = rderrinput()
+except:
+    print("Input invalid, use default value 30"); usr_time = 30
+
+try:
+    rderrinput = int(input("Enter how many the base time in RPM? (1~1000, 30 in default): "))
+    if not isinstance(rderrinput, int): print("Input invalid, use default value 30"); basic_time = 30
+    else: basic_time = rderrinput()
+except:
+    print("Input invalid, use default value 30"); basic_time = 30
 
 rderrinput = input("Random Error? (True) or False: ")
 if not isinstance(rderrinput, bool): print("Input invalid, use default value True"); random_error = True
@@ -43,6 +54,7 @@ select_time_buttom = "/html/body/div[35]/div[@id='centerContent']/div[@id='top']
 change_time_value = "/html/body/div[@id='customTestDurationPopupWrapper']/div[@id='customTestDurationPopup']/input"
 change_time_check = "/html/body/div[@id='customTestDurationPopupWrapper']/div[@id='customTestDurationPopup']/div[@class='button']"
 pyautogui.FAILSAFE = False
+running_status = True
 
 def change_test_time(usr_time):
     browser_web.find_element(by=By.XPATH, value=select_time_buttom).click()
@@ -65,6 +77,15 @@ def random_char():
         sa.append(random.choice(seed))
     salt = ''.join(sa)
     return salt
+
+# use try, expect to check element status to control program stop
+def check_test_status():
+    select_filter = "/html/body/div[35]/div[@id='centerContent']/div[@id='middle']/div[@class='page pageTest active']/div[@id='typingTest']/div[@id='wordsWrapper']/div[@id='words']/div[@class='word active']"
+    filter_class = browser_web.find_elements(by=By.XPATH, value=select_filter)
+    if "[]" in filter_class:
+        return False
+    else:
+        return True
 
 def filter_word():
     select_filter = "/html/body/div[35]/div[@id='centerContent']/div[@id='middle']/div[@class='page pageTest active']/div[@id='typingTest']/div[@id='wordsWrapper']/div[@id='words']/div[@class='word active']"
@@ -101,9 +122,15 @@ def type_text(words):
 
 # Main Program
 change_test_time(usr_time)
-# filter_word()
-time.sleep(1)
+time.sleep(2)
+
 while(True):
+    # check Test Status
+    if (check_test_status() == False):
+        break
+    else:
+        continue
+    # filter_word()
     filter_word()
 
 print("Thanks For Using.")
